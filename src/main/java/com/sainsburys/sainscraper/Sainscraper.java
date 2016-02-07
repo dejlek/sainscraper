@@ -1,7 +1,6 @@
 package com.sainsburys.sainscraper;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,6 +8,7 @@ import org.json.simple.*;
 import org.jsoup.*;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * The main application logic is in this class. Its scrape() method is responsible for fetching the product page,
@@ -47,8 +47,8 @@ public class Sainscraper {
                 Element titleElement = el.getElementsByTag("h1").first();
                 title = titleElement.text();
                 
-                // size of the web-page
-                size = doc.toString().length();
+                // size of the web-page (in kb)
+                size = doc.toString().length() / 1024;
             }
             
             // let's get price per unit
@@ -87,18 +87,41 @@ public class Sainscraper {
         JSONObject json = new JSONObject();
         JSONArray results = new JSONArray();
         json.put("results", results);
-        json.put("total", 0.0f);
+        float total = 0.0f; // total unit price.
         
         Connection con = Jsoup.connect(url.toString());
-        int size;
+        if (con == null) {
+            // If we can't connect, we return an empty JSON document.
+            return "{}";
+        }
+
         try {
-            size = con.get().toString().length();
-            System.out.println(size);
+            Element el = con.get().select("ul.productLister").first();
+            if (el == null) {
+                // There is no list of products so there is no need to continue...
+                return "{}";
+            }
+            
+            Elements els = el.getElementsByTag("li");
+            for (Element element: els) {
+                Element pinfoel = element.select("div.productInfo").first();
+                Element linkel = pinfoel.getElementsByTag("a").first();
+                
+                // System.out.println(linkel.attr("abs:href")); // if we need absolute URL
+                String infoUrl = linkel.attr("href");
+                ProductInfo pinfo = getProductInfo(infoUrl);
+                
+                // Add JSON representation of the ProductInfo object to the array.
+                results.add(pinfo.toJSON());
+                total += pinfo.getUnitPrice();
+            }
         } catch (IOException ex) {
             Logger.getLogger(Sainscraper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        System.out.println(json.toJSONString());
+        // Set the total price /unit for all products.
+        json.put("total", total);
+        
         return json.toJSONString();
     } // scrape() method
     
