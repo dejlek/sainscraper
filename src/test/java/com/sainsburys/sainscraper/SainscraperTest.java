@@ -59,7 +59,6 @@ public class SainscraperTest {
     
     @Test
     public void testGetProductInfoReturnsNull() {
-        //String adr = "http://hiring-tests.s3-website-eu-west-1.amazonaws.com/2015_Developer_Scrape/sainsburys-avocado-xl-pinkerton-loose-300g.html";
         String adr = "http://www.linux.com";
         ProductInfo product = sscraper.getProductInfo(adr);
         assertNull(product);
@@ -70,6 +69,9 @@ public class SainscraperTest {
         String adr = "http://hiring-tests.s3-website-eu-west-1.amazonaws.com/2015_Developer_Scrape/sainsburys-avocado-xl-pinkerton-loose-300g.html";
         ProductInfo product = sscraper.getProductInfo(adr);
         assertNotNull(product);
+        assertNotNull(product.getTitle());
+        assertTrue(product.getSize() > 0);
+        assertTrue(product.getUnitPrice() == 1.5f);
     }
     
 }
