@@ -11,7 +11,6 @@ source tree
 
 Project's source tree looks like:
 
-````
     .
     |-- nbproject
     `-- src
@@ -25,7 +24,6 @@ Project's source tree looks like:
                 `-- com
                     `-- sainsburys
                         `-- sainscraper
-````
 
 As you can see, the code resides in the com.sainsburys.sainscraper package (both testing, and regular).
 
