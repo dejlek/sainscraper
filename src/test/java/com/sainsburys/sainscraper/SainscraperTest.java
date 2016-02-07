@@ -57,4 +57,12 @@ public class SainscraperTest {
         assertTrue(json.contains("total") && json.contains("results"));
     }
     
+    @Test
+    public void testGetProductInfoReturnsNull() {
+        //String adr = "http://hiring-tests.s3-website-eu-west-1.amazonaws.com/2015_Developer_Scrape/sainsburys-avocado-xl-pinkerton-loose-300g.html";
+        String adr = "http://www.linux.com";
+        ProductInfo product = sscraper.getProductInfo(adr);
+        assertNull(product);
+    }
+    
 }
