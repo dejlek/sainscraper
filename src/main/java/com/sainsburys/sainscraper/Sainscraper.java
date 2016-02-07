@@ -1,13 +1,14 @@
 package com.sainsburys.sainscraper;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.*;
 import org.jsoup.*;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 /**
  *
@@ -15,6 +16,7 @@ import org.jsoup.select.Elements;
  */
 public class Sainscraper {
     private URL url;
+    private Connection con;
     
     public Sainscraper(URL argUrl) {
         url = argUrl;
@@ -26,16 +28,30 @@ public class Sainscraper {
         float unitPrice = 0.0f;
         String description = "";
         
-        Connection con = Jsoup.connect(url.toString());
         try {
-            Element el = con.get().select("div.productTitleDescriptionContainer").first();
+            Document doc = Jsoup.connect(argUrl).get();
+            Element el = doc.select("div.productTitleDescriptionContainer").first();
             if (el == null) {
                 return null;
             } else {
+                // Let's get the product title
                 Element titleElement = el.getElementsByTag("h1").first();
-                title = titleElement.toString();
+                title = titleElement.text();
                 
+                // size of the web-page
+                size = doc.toString().length();
                 
+                // let's get price per unit
+            }
+            el = doc.select("p.pricePerUnit").first();
+            if (el == null) {
+                return null;
+            } else {
+                String ptxt = el.text();
+                ptxt = ptxt.replace("/unit", "");
+                ptxt = ptxt.replace("£", "");
+                float ppunit = Float.parseFloat(ptxt);
+                unitPrice = ppunit;
             }
         } catch (IOException ex) {
             Logger.getLogger(Sainscraper.class.getName()).log(Level.SEVERE, null, ex);
