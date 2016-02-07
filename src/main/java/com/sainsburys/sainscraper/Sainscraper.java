@@ -6,6 +6,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.*;
 import org.jsoup.*;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  *
@@ -16,6 +18,30 @@ public class Sainscraper {
     
     public Sainscraper(URL argUrl) {
         url = argUrl;
+    }
+    
+    public ProductInfo getProductInfo(String argUrl) {
+        String title = "";
+        float size = 0.0f;
+        float unitPrice = 0.0f;
+        String description = "";
+        
+        Connection con = Jsoup.connect(url.toString());
+        try {
+            Element el = con.get().select("div.productTitleDescriptionContainer").first();
+            if (el == null) {
+                return null;
+            } else {
+                Element titleElement = el.getElementsByTag("h1").first();
+                title = titleElement.toString();
+                
+                
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Sainscraper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return new ProductInfo(title, size, unitPrice, description);
     }
     
     public String scrape() {
