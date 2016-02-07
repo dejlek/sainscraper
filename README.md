@@ -27,6 +27,15 @@ Project's source tree looks like:
 
 As you can see, the code resides in the com.sainsburys.sainscraper package (both testing, and regular).
 
+dependencies
+------------
+
+*sainscraper* depends on just few popular libraries/frameworks:
+
+- json-simple - for JSON data manipulation.
+- jsoup - for HTML parsing and DOM manipulation as well as web connections.
+- junit and hamcrest - for testing.
+
 running the application
 -----------------------
 
