@@ -39,8 +39,11 @@ dependencies
 running the application
 -----------------------
 
-The simplest way to run the application is to compile and run it:
+The simplest way to run the application is to clone the repository, and use Maven to compile and run it:
 
+    cd /tmp
+    git clone git@github.com:dejlek/sainscraper.git
+    cd sainscraper
     mvn compile
     mvn exec:java
 
