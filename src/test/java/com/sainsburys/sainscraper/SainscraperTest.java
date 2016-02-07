@@ -72,6 +72,8 @@ public class SainscraperTest {
         assertNotNull(product.getTitle());
         assertTrue(product.getSize() > 0);
         assertTrue(product.getUnitPrice() == 1.5f);
+        assertNotNull(product.getDescription());
+        assertTrue(product.getDescription().length() > 0);
     }
     
 }
