@@ -1,5 +1,7 @@
 package com.sainsburys.sainscraper;
 
+import org.json.simple.JSONObject;
+
 /**
  * A simple class to hold information the web scraper needs about each product.
  * 
@@ -16,6 +18,21 @@ public class ProductInfo {
         this.size = size;
         this.unitPrice = unitPrice;
         this.description = description;
+    }
+    
+    /**
+     * Use this method to get JSONObject out of the ProductInfo object.
+     * 
+     * @return JSONObject containing all the fields of the ProductInfo object.
+     */
+    public JSONObject toJSON() {
+        JSONObject ret = new JSONObject();
+        ret.put("title", title);
+        ret.put("size", size);
+        ret.put("unit_price", unitPrice);
+        ret.put("description", description);
+        
+        return ret;
     }
 
     public String getTitle() {
@@ -49,4 +66,10 @@ public class ProductInfo {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "ProductInfo{" + "title=" + title + ", size=" + size + ", unitPrice=" + unitPrice + ", description=" + description + '}';
+    }
+    
 }
