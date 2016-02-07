@@ -62,13 +62,27 @@ public class Sainscraper {
                 float ppunit = Float.parseFloat(ptxt);
                 unitPrice = ppunit;
             }
+            
+            // Let's get the description.
+            // NOTE: I assume description part comes always first...
+            el = doc.select("div.productText").first();
+            if (el == null) {
+                return null;
+            } else {
+                description = el.text();
+            }
         } catch (IOException ex) {
             Logger.getLogger(Sainscraper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return new ProductInfo(title, size, unitPrice, description);
-    }
+    } // getProductInfo() method
     
+    /**
+     * Starts the scraping process, and produces JSON output.
+     * 
+     * @return String containing the JSON code.
+     */
     public String scrape() {
         JSONObject json = new JSONObject();
         JSONArray results = new JSONArray();
@@ -86,7 +100,7 @@ public class Sainscraper {
         
         System.out.println(json.toJSONString());
         return json.toJSONString();
-    }
+    } // scrape() method
     
     // ::::: Accessors ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
