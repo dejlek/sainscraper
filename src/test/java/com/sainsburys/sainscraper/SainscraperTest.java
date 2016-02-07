@@ -46,9 +46,15 @@ public class SainscraperTest {
     }
 
     @Test
-    public void testSomeMethod() {
+    public void testScrapeNotEmpty() {
         String json = sscraper.scrape();
         assertTrue(!json.isEmpty());
+    }
+    
+    @Test
+    public void testScrapeHasTotalAndResults() {
+        String json = sscraper.scrape();
+        assertTrue(json.contains("total") && json.contains("results"));
     }
     
 }
