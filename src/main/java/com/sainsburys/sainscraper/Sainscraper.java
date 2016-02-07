@@ -11,7 +11,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 /**
- *
+ * The main application logic is in this class. Its scrape() method is responsible for fetching the product page,
+ * following links to all product pages, grabbing information from each page and producing a JSON output.
+ * 
  * @author dejan
  */
 public class Sainscraper {
@@ -22,6 +24,13 @@ public class Sainscraper {
         url = argUrl;
     }
     
+    /**
+     * Opens a HTTP(S) connection to the given URL argUrl, and returns a ProductInfo object populated with scraped
+     * information (title, size, unit price and product description).
+     * 
+     * @param argUrl A String object holding a page address.
+     * @return ProductInfo object with data, or null if something went wrong.
+     */
     public ProductInfo getProductInfo(String argUrl) {
         String title = "";
         float size = 0.0f;
@@ -40,9 +49,9 @@ public class Sainscraper {
                 
                 // size of the web-page
                 size = doc.toString().length();
-                
-                // let's get price per unit
             }
+            
+            // let's get price per unit
             el = doc.select("p.pricePerUnit").first();
             if (el == null) {
                 return null;
@@ -88,4 +97,5 @@ public class Sainscraper {
     public void setUrl(URL argUrl) {
         url = argUrl;
     }
-}
+    
+} // Sainscraper class
