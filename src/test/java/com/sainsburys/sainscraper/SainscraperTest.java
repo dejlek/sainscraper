@@ -65,4 +65,11 @@ public class SainscraperTest {
         assertNull(product);
     }
     
+    @Test
+    public void testGetProductInfoReturnsObject() {
+        String adr = "http://hiring-tests.s3-website-eu-west-1.amazonaws.com/2015_Developer_Scrape/sainsburys-avocado-xl-pinkerton-loose-300g.html";
+        ProductInfo product = sscraper.getProductInfo(adr);
+        assertNotNull(product);
+    }
+    
 }
