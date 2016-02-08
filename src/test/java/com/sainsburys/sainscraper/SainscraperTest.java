@@ -17,18 +17,18 @@ import static org.junit.Assert.*;
  */
 public class SainscraperTest {
     Sainscraper sscraper;
-    
+
     public SainscraperTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         URL url;
@@ -39,7 +39,7 @@ public class SainscraperTest {
             Logger.getLogger(SainscraperTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @After
     public void tearDown() {
         sscraper = null;
@@ -50,25 +50,25 @@ public class SainscraperTest {
         String json = sscraper.scrape();
         assertTrue(!json.isEmpty());
     }
-    
+
     @Test
     public void testScrapeHasTotalAndResults() {
         String json = sscraper.scrape();
         assertTrue(json.contains("total") && json.contains("results"));
     }
-    
+
     @Test
     public void testGetProductInfoReturnsNull() {
         String adr = "http://www.linux.com";
         ProductInfo product = sscraper.getProductInfo(adr);
         assertNull(product);
     }
-    
+
     @Test
     public void testGetProductInfoReturnsObject() {
         String adr = "http://hiring-tests.s3-website-eu-west-1.amazonaws.com/2015_Developer_Scrape/sainsburys-avocado-xl-pinkerton-loose-300g.html";
         ProductInfo product = sscraper.getProductInfo(adr);
-        System.out.println(product);
+        
         assertNotNull(product);
         assertNotNull(product.getTitle());
         assertTrue(product.getSize() > 0);
@@ -76,11 +76,11 @@ public class SainscraperTest {
         assertNotNull(product.getDescription());
         assertTrue(product.getDescription().length() > 0);
     }
-    
+
     @Test
     public void testScrapeReturnsProductInfos() {
         String json = sscraper.scrape();
         assertTrue(json.contains("Avocado"));
     }
-    
+
 }
